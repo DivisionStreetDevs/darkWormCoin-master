@@ -1,13 +1,13 @@
 *.tar.gz
 
 *.exe
-src/litecoin
-src/litecoind
-src/litecoin-cli
-src/litecoin-tx
-src/test/test_litecoin
-src/test/test_litecoin_fuzzy
-src/qt/test/test_litecoin-qt
+src/darkWormcoin
+src/darkWormcoind
+src/darkWormcoin-cli
+src/darkWormcoin-tx
+src/test/test_darkWormcoin
+src/test/test_darkWormcoin_fuzzy
+src/qt/test/test_darkWormcoin-qt
 
 # autoreconf
 Makefile.in
@@ -74,12 +74,12 @@ src/qt/test/moc*.cpp
 # Compilation and Qt preprocessor part
 *.qm
 Makefile
-litecoin-qt
-Litecoin-Qt.app
+darkWormcoin-qt
+darkWormcoin-Qt.app
 
 # Unit-tests
 Makefile.test
-litecoin-qt_test
+darkWormcoin-qt_test
 
 # Resources cpp
 qrc_*.cpp
@@ -92,7 +92,7 @@ build
 *.gcno
 *.gcda
 /*.info
-test_litecoin.coverage/
+test_darkWormcoin.coverage/
 total.coverage/
 coverage_percent.txt
 

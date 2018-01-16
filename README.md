@@ -1,7 +1,7 @@
 darkWorm Coin Source 
 =====================================
 
-[![Build Status](https://travis-ci.org/litecoin-project/litecoin.svg?branch=master)](https://travis-ci.org/litecoin-project/litecoin)
+[![Build Status](https://travis-ci.org/darkWormcoin-project/darkWormcoin.svg?branch=master)](https://travis-ci.org/darkWormcoin-project/darkWormcoin)
 
 ## PlaceHolder for Official darkWorm website ##
 
