@@ -76,7 +76,7 @@ import StringIO
 import sys
 
 
-# Change this to the full path if clang-format is not on the path.
+# Changed for DeepWorm structure - use full path if clang-format is not on the path.
 binary = 'clang-format'
 
 
