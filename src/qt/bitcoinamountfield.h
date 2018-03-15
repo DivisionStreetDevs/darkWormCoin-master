@@ -1,5 +1,5 @@
-// Copyright (c) 2011-2015 The Bitcoin Core developers
-// Distributed under the MIT software license, see the accompanying
+// Copyright (c) 2011-2013 The Bitcoin developers
+// Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #ifndef BITCOIN_QT_BITCOINAMOUNTFIELD_H
@@ -56,7 +56,7 @@ public:
     */
     QWidget *setupTabChain(QWidget *prev);
 
-Q_SIGNALS:
+signals:
     void valueChanged();
 
 protected:
@@ -67,7 +67,7 @@ private:
     AmountSpinBox *amount;
     QValueComboBox *unit;
 
-private Q_SLOTS:
+private slots:
     void unitChanged(int idx);
 
 };

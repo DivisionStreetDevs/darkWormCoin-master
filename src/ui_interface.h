@@ -1,6 +1,6 @@
 // Copyright (c) 2010 Satoshi Nakamoto
-// Copyright (c) 2012-2016 The Bitcoin Core developers
-// Distributed under the MIT software license, see the accompanying
+// Copyright (c) 2012 The Bitcoin developers
+// Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #ifndef BITCOIN_UI_INTERFACE_H
@@ -12,8 +12,9 @@
 #include <boost/signals2/last_value.hpp>
 #include <boost/signals2/signal.hpp>
 
+class CBasicKeyStore;
 class CWallet;
-class CBlockIndex;
+class uint256;
 
 /** General change type (added, updated, removed). */
 enum ChangeType
@@ -74,22 +75,20 @@ public:
     /** Show message box. */
     boost::signals2::signal<bool (const std::string& message, const std::string& caption, unsigned int style), boost::signals2::last_value<bool> > ThreadSafeMessageBox;
 
-    /** If possible, ask the user a question. If not, falls back to ThreadSafeMessageBox(noninteractive_message, caption, style) and returns false. */
-    boost::signals2::signal<bool (const std::string& message, const std::string& noninteractive_message, const std::string& caption, unsigned int style), boost::signals2::last_value<bool> > ThreadSafeQuestion;
-
     /** Progress message during initialization. */
     boost::signals2::signal<void (const std::string &message)> InitMessage;
+
+    /** Translate a message to the native language of the user. */
+    boost::signals2::signal<std::string (const char* psz)> Translate;
 
     /** Number of network connections changed. */
     boost::signals2::signal<void (int newNumConnections)> NotifyNumConnectionsChanged;
 
-    /** Network activity state changed. */
-    boost::signals2::signal<void (bool networkActive)> NotifyNetworkActiveChanged;
-
     /**
-     * Status bar alerts changed.
+     * New, updated or cancelled alert.
+     * @note called with lock cs_mapAlerts held.
      */
-    boost::signals2::signal<void ()> NotifyAlertChanged;
+    boost::signals2::signal<void (const uint256 &hash, ChangeType status)> NotifyAlertChanged;
 
     /** A wallet has been loaded. */
     boost::signals2::signal<void (CWallet* wallet)> LoadWallet;
@@ -97,29 +96,20 @@ public:
     /** Show progress e.g. for verifychain */
     boost::signals2::signal<void (const std::string &title, int nProgress)> ShowProgress;
 
-    /** Set progress break action (possible "cancel button" triggers that action) */
-    boost::signals2::signal<void (std::function<void(void)> action)> SetProgressBreakAction;
-
     /** New block has been accepted */
-    boost::signals2::signal<void (bool, const CBlockIndex *)> NotifyBlockTip;
-
-    /** Best header has changed */
-    boost::signals2::signal<void (bool, const CBlockIndex *)> NotifyHeaderTip;
-
-    /** Banlist did change. */
-    boost::signals2::signal<void (void)> BannedListChanged;
+    boost::signals2::signal<void (const uint256& hash)> NotifyBlockTip;
 };
 
-/** Show warning message **/
-void InitWarning(const std::string& str);
-
-/** Show error message **/
-bool InitError(const std::string& str);
-
-std::string AmountHighWarn(const std::string& optname);
-
-std::string AmountErrMsg(const char* const optname, const std::string& strValue);
-
 extern CClientUIInterface uiInterface;
+
+/**
+ * Translation function: Call Translate signal on UI interface, which returns a boost::optional result.
+ * If no translation slot is registered, nothing is returned, and simply return the input.
+ */
+inline std::string _(const char* psz)
+{
+    boost::optional<std::string> rv = uiInterface.Translate(psz);
+    return rv ? (*rv) : psz;
+}
 
 #endif // BITCOIN_UI_INTERFACE_H

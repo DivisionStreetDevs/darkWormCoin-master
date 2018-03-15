@@ -1,5 +1,5 @@
-// Copyright (c) 2011-2016 The Bitcoin Core developers
-// Distributed under the MIT software license, see the accompanying
+// Copyright (c) 2011-2013 The Bitcoin developers
+// Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #ifndef BITCOIN_QT_TRANSACTIONVIEW_H
@@ -10,7 +10,6 @@
 #include <QWidget>
 #include <QKeyEvent>
 
-class PlatformStyle;
 class TransactionFilterProxy;
 class WalletModel;
 
@@ -33,7 +32,7 @@ class TransactionView : public QWidget
     Q_OBJECT
 
 public:
-    explicit TransactionView(const PlatformStyle *platformStyle, QWidget *parent = 0);
+    explicit TransactionView(QWidget *parent = 0);
 
     void setModel(WalletModel *model);
 
@@ -50,10 +49,10 @@ public:
     };
 
     enum ColumnWidths {
-        STATUS_COLUMN_WIDTH = 30,
+        STATUS_COLUMN_WIDTH = 23,
         WATCHONLY_COLUMN_WIDTH = 23,
         DATE_COLUMN_WIDTH = 120,
-        TYPE_COLUMN_WIDTH = 113,
+        TYPE_COLUMN_WIDTH = 120,
         AMOUNT_MINIMUM_COLUMN_WIDTH = 120,
         MINIMUM_COLUMN_WIDTH = 23
     };
@@ -75,8 +74,6 @@ private:
     QFrame *dateRangeWidget;
     QDateTimeEdit *dateFrom;
     QDateTimeEdit *dateTo;
-    QAction *abandonAction;
-    QAction *bumpFeeAction;
 
     QWidget *createDateRangeWidget();
 
@@ -86,7 +83,7 @@ private:
 
     bool eventFilter(QObject *obj, QEvent *event);
 
-private Q_SLOTS:
+private slots:
     void contextualMenu(const QPoint &);
     void dateRangeChanged();
     void showDetails();
@@ -95,20 +92,16 @@ private Q_SLOTS:
     void copyLabel();
     void copyAmount();
     void copyTxID();
-    void copyTxHex();
-    void copyTxPlainText();
     void openThirdPartyTxUrl(QString url);
     void updateWatchOnlyColumn(bool fHaveWatchOnly);
-    void abandonTx();
-    void bumpFee();
 
-Q_SIGNALS:
+signals:
     void doubleClicked(const QModelIndex&);
 
     /**  Fired when a message should be reported to the user */
     void message(const QString &title, const QString &message, unsigned int style);
 
-public Q_SLOTS:
+public slots:
     void chooseDate(int idx);
     void chooseType(int idx);
     void chooseWatchonly(int idx);
